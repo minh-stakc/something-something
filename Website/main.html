@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://kit.fontawesome.com/7a061bf738.js" crossorigin="anonymous"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/random.js" async></script>
+  <script src="js/darkmode.js" defer></script>
+  <script src="js/socket.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="js/charts.js" async></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <nav id="navbar" class=" navbar navbar-expand-md nav-static fixed-top shadow-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">LOGO</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mx-2 ms-auto mb-2 mb-md-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#"><i class="fa-solid fa-house"></i> Home</a>
+          </li>
+
+          <li class="dropdown2 nav-item pe-1">
+            <a class="nav-link " href="#seasonInfoPointer">
+              <i class="fa-solid fa-cloud-sun-rain"></i> Season
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" data-bs-target="#myCarousel"
+                  data-bs-slide-to="0" aria-label="Slide 1" onclick='toSeason()'>
+                  <span class="d-inline-block rounded-circle p-1" style="background-color:#2f6b05"></span>
+                  Spring<i class="fa-solid fa-cloud-rain"></i></a>
+              </li>
+              <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" data-bs-target="#myCarousel"
+                  data-bs-slide-to="1" aria-label="Slide 2" onclick='toSeason()'>
+                  <span class="d-inline-block rounded-circle p-1" style="background-color:#dbc5a2"></span>
+                  Summer<i class="fa-solid fa-sun"></i></a>
+              </li>
+              <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" data-bs-target="#myCarousel"
+                  data-bs-slide-to="2" aria-label="Slide 3" onclick='toSeason()'>
+                  <span class="d-inline-block rounded-circle p-1" style="background-color:#e24308"></span>
+                  Autumn<i class="fa-brands fa-canadian-maple-leaf"></i></a>
+              </li>
+              <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" data-bs-target="#myCarousel"
+                  data-bs-slide-to="3" aria-label="Slide 4" onclick='toSeason()'>
+                  <span class="d-inline-block rounded-circle p-1" style="background-color:#cbc7d2"></span>
+                  Winter<i class="fa-solid fa-snowflake"></i></a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#GPSmapPointer"><i class="fa-solid fa-map"></i> GPS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#healthMonitorPointer"><i class="fa-solid fa-heart"></i> Health</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#environmentMonitorPointer"><i class="fa-solid fa-earth-americas"></i>
+              Environment</a>
+
+          </li>
+        </ul>
+
+        <div class="dark-mode-text d-inline-block d-md-none">Toggle Dark Mode</div>
+
+        <label class="switch me-md-5" id="toggleDarkModeButton">
+          <input type="checkbox" onclick="toggleDarkMode()">
+          <span class="slider round"></span>
+        </label>
+
+       
+      </div>
+    </div>
+  </nav>
+  <main>
+    <!-- This is introduction to the website -->
+    <div class="home-page"> 
+      <section class="container mb-5" id="intro">
+      <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border">
+        <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+          <h1 class="display-4 fw-bold lh-1" id="testDom">Saving cats' fate with a device</h1>
+          <p class="lead">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most
+            popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system,
+            extensive
+            prebuilt components, and powerful JavaScript plugins.</p>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+            <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Primary</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg px-4">Default</button>
+          </div>
+        </div>
+        <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow">
+          <!-- <img class="rounded-lg-3" src="https://getbootstrap.com/docs/5.2/examples/heroes/bootstrap-docs.png"
+            alt="website Introduction" width="720"> -->
+        </div>
+      </div>
+    </section>
+  </div>
+   
+
+
+    <div class="part-divider" id="seasonInfoPointer"></div>
+
+
+    <!-- This is a section about seasonal information (Ex: frequent or general disease according to seasons) -->
+    <section class="container mb-5" id="seasonInfo">
+      <h2 class="subheading">Seasonal Information</h2>
+      <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class=""
+            aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class=""
+            aria-current="true"></button>
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"
+            class="active"></button>
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4"
+            class=""></button>
+        </div>
+        <div class="carousel-inner">
+
+          <div class="carousel-item border" id="spring" style="background-color: #2f6b05;">
+            <div class="container pt-5"></div>
+            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              <!-- <rect width="100%" height="0%" fill="#2f6b05"></rect> -->
+              <image href="https://i.pinimg.com/originals/9e/10/3e/9e103e2a37ae8e8f209e159ad56adfd9.png" height="50%"
+                width="100%" class="opacity-75" />
+            </svg>
+            <div class="container">
+              <div class="carousel-caption">
+                <h3>Spring</h3>
+                <p>Some representative placeholder content for the second slide of the carousel.</p>
+                <p><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#springInfo">
+                    Launch demo modal
+                  </button></p>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Modal -->
+          <div class="modal fade" id="springInfo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  ...
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item border" id="summer" style="background-color: #dbc5a2;">
+            <div class="container pt-5"></div>
+            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              <!-- <rect width="100%" height="0%" fill="#dbc5a2"></rect> -->
+              <image href="https://hips.hearstapps.com/hmg-prod/images/when-does-summer-end-1651614198.jpg" height="50%"
+                width="100%" class="opacity-75" />
+            </svg>
+
+            <div class="container">
+              <div class="carousel-caption text-black">
+                <h3>Summer</h3>
+                <p>Some representative placeholder content for the second slide of the carousel.</p>
+                <p><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#summerInfo">
+                    Launch demo modal
+                  </button></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal -->
+          <div class="modal fade" id="summerInfo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  ...
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item active border" id="autumn" style="background-color: #e24308;">
+            <div class="container pt-5"></div>
+            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="true">
+              <!-- <rect width="100%" height="0%" fill="#e24308"></rect> -->
+              <image href="https://parade.com/.image/t_share/MTkwNTgxMTQyMTc4MTEzNDA0/autumn-quotes-jpg.jpg"
+                height="50%" width="100%" class="border rounded opacity-75" />
+            </svg>
+
+            <div class="container">
+              <div class="carousel-caption">
+                <h3>Autumn</h3>
+                <p>Some representative placeholder content for the second slide of the carousel.</p>
+                <p><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#autumnInfo">
+                    Launch demo modal
+                  </button></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal -->
+          <div class="modal fade" id="autumnInfo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  ...
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="carousel-item border" id="winter" style="background-color: #cbc7d2;">
+            <div class="container pt-5"></div>
+            <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              <!-- <rect width="100%" height="0%" fill="#cbc7d2"></rect> -->
+              <image
+                href="https://www.almanac.com/sites/default/files/styles/landscape/public/image_nodes/winter_sunrise-2.jpg?itok=81VQoJGG"
+                height="50%" width="100%" class="border rounded opacity-75" />
+            </svg>
+            <div class="container">
+              <div class="carousel-caption text-black">
+                <h3>Winter</h3>
+                <p>Some representative placeholder content for the second slide of the carousel.</p>
+                <p><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#winterInfo">
+                    Launch demo modal
+                  </button></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal -->
+          <div class="modal fade" id="winterInfo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  ...
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </section>
+
+    <div class="part-divider" id="GPSmapPointer"></div>
+
+    <!-- This is a section about the whereabout of the device with GPS -->
+    <section class="container" id="GPSmap">
+      <h2 class="subheading">Location</h2>
+      <div class="w-50 mx-auto d-block">
+        <img src="https://cdn2.vectorstock.com/i/1000x1000/73/21/map-template-vector-3297321.jpg" alt="map template"
+          class="border border-4 rounded-circle  h-auto mx-auto d-inline-block w-100">
+      </div>
+    </section>
+
+
+
+    <div class="part-divider" id="healthMonitorPointer"></div>
+    <!-- This is the section to monitor the pet's health with sensors and generated graphs -->
+    <section class="container mt-5" id="healthMonitor">
+      <h2 class="subheading">Health Information</h2>
+      <article class="generalInfo">
+        <div class="text">Normal suitable condition:....</div>
+      </article>
+      <div class="album py-5 ">
+        <div class="container">
+
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="col">
+              <div class="card shadow-sm">
+                <canvas id="heart_rate_chart"></canvas>
+
+                <div class="card-body text-center">
+                  <i class="fa-solid fa-heart-pulse"></i>
+                  <p class="card-text">Heart beat: <strong class="fs-5" id="heart_rate">100</strong> bpm</p>
+                  <!-- <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                          <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                        </div>
+                        <small class="text-muted">9 mins</small>
+                      </div> -->
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card shadow-sm">
+                <canvas id="spo2_chart"></canvas>
+
+                <div class="card-body text-center">
+                  <i class="fa-solid fa-lungs"></i>
+                  <p class="card-text">
+                    O<sub>2</sub> saturation: <strong class="fs-5" id="spo2">96</strong>%
+                  </p>
+                  <!-- <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                          <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                        </div>
+                        <small class="text-muted">9 mins</small>
+                      </div> -->
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card shadow-sm">
+                <canvas id="temp_chart"></canvas>
+
+                <div class="card-body text-center">
+                  <i class="fa-solid fa-temperature-low"></i>
+                  <p class="card-text">
+                    Temperature: <strong class="fs-5" id="inner_temp">36</strong>°C
+                  </p>
+                  <!-- <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                          <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                        </div>
+                        <small class="text-muted">9 mins</small>
+                      </div> -->
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="part-divider" id="environmentMonitorPointer"></div>
+
+
+    <section class="container" id="environmentMonitor">
+      <h2 class="subheading">Environment Information</h2>
+      <article class="generalInfo">
+        <div class="text mb-3">Normal suitable condition:....</div>
+      </article>
+      <div class="list-group w-auto">
+        <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+          <i class="fa-solid fa-temperature-three-quarters align-self-center mx-2" style="font-size: 1.5em"></i>
+          <div class="d-flex gap-2 w-100 justify-content-between">
+            <div>
+              <h6 class="mb-0">Temperature: <span id="outer_temp">36</span>°C</h6>
+            </div>
+            <small class="opacity-50 text-nowrap">now</small>
+          </div>
+        </a>
+
+        <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+          <i class="fa-solid fa-droplet align-self-center mx-2" style="font-size: 1.5em"></i>
+          <div class="d-flex gap-2 w-100 justify-content-between">
+            <div>
+              <h6 class="mb-0">Humidity: <span id="hum" >90</span>%</h6>
+            </div>
+            <small class="opacity-50 text-nowrap">3d</small>
+          </div>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+          <i class="fa-solid fa-biohazard align-self-center mx-1" style="font-size: 1.5em"></i>
+          <div class="d-flex gap-2 w-100 justify-content-between">
+            <div>
+              <h6 class="mb-0">CO<sub>2</sub> in Air: <span id = "co2">800</span> PPM</h6>
+            </div>
+            <small class="opacity-50 text-nowrap">1w</small>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+
+
+  <footer class="container mt-5 d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div class="col-md-4 d-flex align-items-center">
+      <a href="#" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+        <i class="fa-brands fa-google"></i>
+      </a>
+      <span class="mb-3 mb-md-0 text-muted">© 2022 Company, Inc</span>
+    </div>
+
+    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+      <li class="ms-3"><a class="text-muted" href="#"><i class="fa-brands fa-facebook"></i></a></li>
+      <li class="ms-3"><a class="text-muted" href="#"><i class="fa-brands fa-facebook"></i></a></li>
+      <li class="ms-3"><a class="text-muted" href="#"><i class="fa-brands fa-facebook"></i></a></li>
+    </ul>
+  </footer>
+
+
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://getbootstrap.com/docs/3.4/assets/js/ie10-viewport-bug-workaround.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+    crossorigin="anonymous"></script>
+
+</body>
+
+</html>
