@@ -102,64 +102,11 @@ void setup() {
 
   Wire.setClock(100000);
 }
-
-float h = 0;
-// Read temperature as Celsius (the default)
-float outer_temp = 0;
-float correctedPPM = 0;
-float inner_temp = 0;
-unsigned int heart_rate = 0;
-float spo2 = 0;
 unsigned long messageTimestamp = 0;
 
 void loop() {
   socketIO.loop();
-  pox.update();
-  inner_temp = mlx.readObjectTempC();
-  heart_rate = pox.getHeartRate();
-  spo2 = pox.getSpO2();
-  // float rzero = mq135_sensor.getRZero();
-  // float correctedRZero = mq135_sensor.getCorrectedRZero(temperature, humidity);
-  // float resistance = mq135_sensor.getResistance();
-
-  if (millis() - tsLastReport > REPORTING_PERIOD_MS) {
-    h = dht.readHumidity();
-    // Read temperature as Celsius (the default)
-    outer_temp = dht.readTemperature();
-    float ppm = mq135_sensor.getPPM();
-    correctedPPM = mq135_sensor.getCorrectedPPM(outer_temp, h);
-
-    Serial.print("Heart rate:");
-    Serial.print(heart_rate);
-    Serial.print("bpm / SpO2:");
-    Serial.print(spo2);
-    Serial.println("%");
-
-    Serial.print(F("\nHumidity: "));
-    Serial.print(h);
-    Serial.print(F("%  Temperature: "));
-    Serial.print(outer_temp);
-    Serial.print(F("°C"));
-
-    Serial.print("  Object = ");
-    Serial.print(inner_temp);
-    Serial.println("*C");
-
-    Serial.print("\nPPM: ");
-    Serial.print(ppm);
-    Serial.print("ppm  Corrected PPM: ");
-    Serial.print(correctedPPM);
-    Serial.println("ppm");
-    Serial.println('\n');
-    // Serial.print("MQ135 RZero: ");
-    // Serial.print(rzero);
-    // Serial.print("\t Corrected RZero: ");
-    // Serial.print(correctedRZero);
-    // Serial.print("\t Resistance: ");
-    // Serial.print(resistance);
-    // Serial.print("Ambient = "); Serial.print(mlx.readAmbientTempF());
-    // Serial.print("*F\tObject = "); Serial.print(mlx.readObjectTempF()); Serial.println("*F");
-    tsLastReport = millis();
+  
   }
 
   uint64_t now = millis();
@@ -175,12 +122,15 @@ void loop() {
 
     // add payload (parameters) for the event
     JsonObject msg = array.createNestedObject();
-    msg["heart_rate"] = heart_rate;
-    msg["spo2"] = spo2;
-    msg["inner_temp"] = String(inner_temp, 1);
-    msg["outer_temp"] = String(outer_temp, 1);
-    msg["co2"] = String(correctedPPM,1);
-    msg["hum"] = h;
+    msg["pad1"] = pad1;
+    msg["pad2"] = pad2;
+    msg["pad2"] = pad2;
+    msg["pad2"] = pad2;
+    msg["pad2"] = pad2;
+    msg["pad2"] = pad2;
+    msg["pad2"] = pad2;
+    msg["pad2"] = pad2;
+    msg["pad2"] = pad2;
 
     // JSON to String (serializion)
     String output;

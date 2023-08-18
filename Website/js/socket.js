@@ -1,123 +1,218 @@
 const socket = io();
 
 const model_sensors_data = {
-  heart_rate: [98, 90, 99, 100, 101, 102, 103, 104, 105, 106, 120, 70, 80],
-  spo2: [96, 98, 99, 100, 80, 97, 95, 90, 100, 100, 96, 96, 95, 94],
-  temp: [36, 36, 36, 36, 35, 34, 40, 43, 32, 34, 43, 30, 36],
+  pad1: [],
+  pad2: [],
+  pad3: [],
+  pad4: [],
+  pad5: [],
+  pad6: [],
+  pad7: [],
+  total: [],
 };
 
 const sensors_data = model_sensors_data;
 
-//chart update every 5 sec of the last minute
-const hrc = new Chart(document.getElementById("heart_rate_chart"), {
+
+const pad1canva = new Chart(document.getElementById("pad1_chart"), {
   type: "line",
   data: {
-    labels: [0, " ", 10, " ", 20, " ", 30, " ", 40, " ", 50, " ", 60],
+    labels: [],
     datasets: [
       {
-        label: "# of Heart Beats Per Minutes",
-        data: sensors_data.heart_rate,
+        label: "Current of pad 1",
+        data: sensors_data.pad1,
         borderColor: "#FF0000",
         backgroundColor: "#FFCCCB",
         borderWidth: 1,
       },
     ],
   },
-  options: {
-    scales: {
-      y: {
-        suggestedMax: 300,
-        suggestedMin: 50,
-      },
-    },
-  },
+});
+const pad1 = document.getElementById("pad1");
+socket.on("data/sensor/pad1", (data) => {
+  pad1.innerHTML = data;
+  sensors_data.pad1.unshift(data);
+  if (sensors_data.pad1.length > 13) {
+    sensors_data.pad1.pop();
+  }
+  pad1canva.update();
 });
 
-const o2c = new Chart(document.getElementById("spo2_chart"), {
+const pad2canva = new Chart(document.getElementById("pad2_chart"), {
   type: "line",
   data: {
-    labels: [0, " ", 10, " ", 20, " ", 30, " ", 40, " ", 50, " ", 60],
+    labels: [],
     datasets: [
       {
-        label: "% of Oxygen Saturation",
-        data: sensors_data.spo2,
+        label: "Current of pad 2",
+        data: sensors_data.pad2,
+        borderColor: "#FF0000",
+        backgroundColor: "#FFCCCB",
         borderWidth: 1,
       },
     ],
   },
-  options: {
-    scales: {
-      y: {
-        suggestedMax: 100,
-        suggestedMin: 85,
-      },
-    },
-  },
+});
+const pad2 = document.getElementById("pad2");
+socket.on("data/sensor/pad2", (data) => {
+  pad2.innerHTML = data;
+  sensors_data.pad2.unshift(data);
+  if (sensors_data.pad2.length > 13) {
+    sensors_data.pad2.pop();
+  }
+  pad2canva.update();
 });
 
-const tc = new Chart(document.getElementById("temp_chart"), {
+const pad3canva = new Chart(document.getElementById("pad3_chart"), {
   type: "line",
   data: {
-    labels: [0, " ", 10, " ", 20, " ", 30, " ", 40, " ", 50, " ", 60],
+    labels: [],
     datasets: [
       {
-        label: "# of °C",
-        data: sensors_data.temp,
-        borderColor: "#fdb44e",
-        backgroundColor: "#fcd298",
+        label: "Current of pad 3",
+        data: sensors_data.pad3,
+        borderColor: "#FF0000",
+        backgroundColor: "#FFCCCB",
         borderWidth: 1,
       },
     ],
   },
-  options: {
-    scales: {
-      y: {
-        suggestedMax: 60,
-        suggestedMin: 20,
+});
+const pad3 = document.getElementById("pad3");
+socket.on("data/sensor/pad3", (data) => {
+  pad3.innerHTML = data;
+  sensors_data.pad3.unshift(data);
+  if (sensors_data.pad3.length > 13) {
+    sensors_data.pad3.pop();
+  }
+  pad3canva.update();
+});
+
+const pad4canva = new Chart(document.getElementById("pad4_chart"), {
+  type: "line",
+  data: {
+    labels: [],
+    datasets: [
+      {
+        label: "Current of pad 4",
+        data: sensors_data.pad4,
+        borderColor: "#FF0000",
+        backgroundColor: "#FFCCCB",
+        borderWidth: 1,
       },
-    },
+    ],
   },
 });
-
-const heart_rate = document.getElementById("heart_rate");
-const spo2 = document.getElementById("spo2");
-const inner_temp = document.getElementById("inner_temp");
-const hum = document.getElementById("hum");
-const outer_temp = document.getElementById("outer_temp");
-const co2 = document.getElementById("co2");
-
-socket.on("data/sensor/heart_rate", (data) => {
-  heart_rate.innerHTML = data;
-  sensors_data.heart_rate.unshift(data);
-  if (sensors_data.heart_rate.length > 13) {
-    sensors_data.heart_rate.pop();
+const pad4 = document.getElementById("pad4");
+socket.on("data/sensor/pad4", (data) => {
+  pad4.innerHTML = data;
+  sensors_data.pad4.unshift(data);
+  if (sensors_data.pad4.length > 13) {
+    sensors_data.pad4.pop();
   }
-  hrc.update();
+  pad4canva.update();
 });
 
-socket.on("data/sensor/spo2", (data) => {
-  spo2.innerHTML = data;
-  sensors_data.spo2.unshift(data);
-  if (sensors_data.spo2.length > 13) {
-    sensors_data.spo2.pop();
+const pad5canva = new Chart(document.getElementById("pad5_chart"), {
+  type: "line",
+  data: {
+    labels: [],
+    datasets: [
+      {
+        label: "Current of pad 5",
+        data: sensors_data.pad5,
+        borderColor: "#FF0000",
+        backgroundColor: "#FFCCCB",
+        borderWidth: 1,
+      },
+    ],
+  },
+});
+const pad5 = document.getElementById("pad5");
+socket.on("data/sensor/pad5", (data) => {
+  pad5.innerHTML = data;
+  sensors_data.pad5.unshift(data);
+  if (sensors_data.pad5.length > 13) {
+    sensors_data.pad5.pop();
   }
-  o2c.update();
-});
-socket.on("data/sensor/inner_temp", (data) => {
-  inner_temp.innerHTML = data;
-  sensors_data.temp.unshift(data);
-  if (sensors_data.temp.length > 13) {
-    sensors_data.temp.pop();
-  }
-  tc.update();
-});
-socket.on("data/sensor/hum", (data) => {
-  hum.innerHTML = data;
-});
-socket.on("data/sensor/outer_temp", (data) => {
-  outer_temp.innerHTML = data;
+  pad5canva.update();
 });
 
-socket.on("data/sensor/co2", (data) => {
-  co2.innerHTML = data;
+const pad6canva = new Chart(document.getElementById("pad6_chart"), {
+  type: "line",
+  data: {
+    labels: [],
+    datasets: [
+      {
+        label: "Current of pad 6",
+        data: sensors_data.pad6,
+        borderColor: "#FF0000",
+        backgroundColor: "#FFCCCB",
+        borderWidth: 1,
+      },
+    ],
+  },
 });
+const pad6 = document.getElementById("pad6");
+socket.on("data/sensor/pad6", (data) => {
+  pad6.innerHTML = data;
+  sensors_data.pad6.unshift(data);
+  if (sensors_data.pad6.length > 13) {
+    sensors_data.pad6.pop();
+  }
+  pad6canva.update();
+});
+
+const pad7canva = new Chart(document.getElementById("pad7_chart"), {
+  type: "line",
+  data: {
+    labels: [],
+    datasets: [
+      {
+        label: "Current of pad 7",
+        data: sensors_data.pad7,
+        borderColor: "#FF0000",
+        backgroundColor: "#FFCCCB",
+        borderWidth: 1,
+      },
+    ],
+  },
+});
+const pad7 = document.getElementById("pad7");
+socket.on("data/sensor/pad7", (data) => {
+  pad7.innerHTML = data;
+  sensors_data.pad7.unshift(data);
+  if (sensors_data.pad7.length > 13) {
+    sensors_data.pad7.pop();
+  }
+  pad7canva.update();
+});
+
+const totalcanva = new Chart(document.getElementById("total_chart"), {
+  type: "line",
+  data: {
+    labels: [],
+    datasets: [
+      {
+        label: "Current of total",
+        data: sensors_data.total,
+        borderColor: "#FF0000",
+        backgroundColor: "#FFCCCB",
+        borderWidth: 1,
+      },
+    ],
+  },
+});
+const total = document.getElementById("total");
+socket.on("data/sensor/total", (data) => {
+  total.innerHTML = data;
+  sensors_data.total.unshift(data);
+  if (sensors_data.total.length > 13) {
+    sensors_data.total.pop();
+  }
+  totalcanva.update();
+});
+
+
+

@@ -4,14 +4,6 @@
 const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
-const {
-  getElementById,
-  createElement,
-  updateElement,
-  getIndexById,
-  randomSensorData,
-  createErr,
-} = require("./utilsFunctions.js");
 // Instantiate the app here
 const app = express();
 const server = require("http").createServer(app);
@@ -21,24 +13,8 @@ app.use(express.static("./Website"));
 
 const PORT = process.env.PORT || 4001;
 
-const userRouter = require("./users.js");
-app.use("/users", userRouter);
-
-const petsRouter = require("./pets");
-app.use("/pets", petsRouter);
-// const bodyParser = (req, res, next) => {
-//   let queryData = "";
-//   req.on("data", (data) => {
-//     data = data.toString();
-//     queryData += data;
-//   });
-//   req.on("end", () => {
-//     if (queryData) {
-//       req.body = JSON.parse(queryData);
-//     }
-//     next();
-//   });
-// };
+const sensorsRouter = require("./sensors.js");
+app.use("/sensors", sensorsRouter);
 
 io.on("connection", (socket) => {
   console.log("lol");
@@ -46,41 +22,34 @@ io.on("connection", (socket) => {
     console.log(data);
   });
 
-  socket.on("data/sensor/start", (data) => {
-    console.log(data);
-    setInterval(() => {
-      socket.broadcast.emit(
-        "data/sensor/heart_rate",
-        randomSensorData("heart")
-      );
-      socket.broadcast.emit("data/sensor/spo2", randomSensorData("spo2"));
-      socket.broadcast.emit("data/sensor/inner_temp", randomSensorData("temp"));
-      socket.broadcast.emit("data/sensor/outer_temp", randomSensorData("temp"));
-      socket.broadcast.emit("data/sensor/co2", randomSensorData("co2"));
-      socket.broadcast.emit("data/sensor/hum", randomSensorData("hum"));
-      console.log("hello");
-    }, 5000);
-  });
-
   socket.on("data/sensor", (data) => {
     console.log(data);
-    if (data.heart_rate > 0 && data.heart_rate < 300) {
-      socket.broadcast.emit("data/sensor/heart_rate", data.heart_rate);
+    if (data.pad1) {
+      socket.broadcast.emit("data/sensor/pad1", data.pad1);
     }
-    if (data.spo2 && data.spo2 > 0 && data.spo2 < 100) {
-      socket.broadcast.emit("data/sensor/spo2", data.spo2);
+    if (data.pad1) {
+      socket.broadcast.emit("data/sensor/pad1", data.pad1);
     }
-    if (data.inner_temp > 0 && data.inner_temp < 60) {
-      socket.broadcast.emit("data/sensor/inner_temp", data.inner_temp);
+    if (data.pad2) {
+      socket.broadcast.emit("data/sensor/pad2", data.pad1);
     }
-    if (data.outer_temp > -50 && data.outer_temp < 100) {
-      socket.broadcast.emit("data/sensor/outer_temp", data.outer_temp);
+    if (data.pad3) {
+      socket.broadcast.emit("data/sensor/pad3", data.pad1);
     }
-    if (data.co2 && data.co2 > 0 && data.co2 < 20000) {
-      socket.broadcast.emit("data/sensor/co2", data.co2);
+    if (data.pad4) {
+      socket.broadcast.emit("data/sensor/pad4", data.pad1);
     }
-    if (data.hum && data.hum > 0 && data.hum < 100) {
-      socket.broadcast.emit("data/sensor/hum", data.hum);
+    if (data.pad5) {
+      socket.broadcast.emit("data/sensor/pad5", data.pad1);
+    }
+    if (data.pad6) {
+      socket.broadcast.emit("data/sensor/pad6", data.pad1);
+    }
+    if (data.pad7) {
+      socket.broadcast.emit("data/sensor/pad7", data.pad1);
+    }
+    if (data.total) {
+      socket.broadcast.emit("data/sensor/total", data.pad1);
     }
   });
 
